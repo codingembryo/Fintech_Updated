@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subcategories</title>
+</head>
+<body>
+    <h1>Subcategories</h1>
+    <ul>
+        {% for sub in subcategory %}
+
+            <li>{{ sub.displayName }}</li>
+            
+        {% endfor %}
+    </ul>
+</body>
+</html>

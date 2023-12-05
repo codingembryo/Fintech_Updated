@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    
+       
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="{% static 'finweb/images/mtn.jpg' %}" class="img-fluid" alt="Image" width="250px" height="250px">
+                  </div>
+                  <div class="col-md-6">
+                    <h4 class="card-title text-right">MTN DATA PURCHASE</h4>
+
+                <form method="POST" action="{% url 'data' %}">
+							<input name="_token" type="hidden" value="qzCoS3lTRM4fk9A4SkCb42o0JA0SPpl4CwleGCkv">
+							<div class="form-group col-lg-12">
+
+                    {% csrf_token %} 
+
+                    <input name="_token" type="hidden" value="2nRiYbb5QGSy1ZiIG9DUc6ASrxWK1kQieMNhbnNZ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="s_option_1">Data Plans</label>
+                            <select data-shb-product-option="data-shb-product-option" class="form-control selectpicker" id="s_option_1" required="required" data-live-search="true" name="bouquet">
+                                <option value="" selected="selected">Please Select Data Plans</option>
+								            {% for option in bouquet_options %}
+                                <option value="{{ option.code }}">{{ option.name }}</option>
+								            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="row mt-3" id="verify_tab" style="display:none;">
+                        <div class="col-md-12">
+                            <img src="" alt="#">
+                            <p id="verify_table" style="margin:5px;display:none;">
+                                <strong id="s_name"></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="phone">Phone Number</label>
+                            <input class="form-control" placeholder="Enter Phone Number" id="phone" name="phone" type="text">
+                        </div>
+                        <br><br><br>
+                        <div class="col-md-12">
+                            <label for="ex_form">Email Address</label>
+                            <input class="form-control" placeholder="Your Email" id="email" name="email" type="text" value="">
+                            <input class="form-control" placeholder="true" id="active" name="active" type="text" value="true" style="display: none;">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row mt-6">
+                        <div class="col-md-12">
+                            <input type="submit" value="Continue" class="btn btn-primary">
+                            <input type="reset" value="Back" class="btn btn-secondary m-l-10">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}

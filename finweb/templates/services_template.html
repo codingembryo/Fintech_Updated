@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Services</h1>
+<p>Response Description: {{ data.response_description }}</p>
+
+<ul>
+  {% for service in data.content %}
+
+  <li>Identifier: {{ service.identifier }} - Name: {{ service.name }}</li>
+
+  {% endfor %}
+</ul>
+
+{% endblock %}

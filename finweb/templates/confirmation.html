@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+       
+
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">MNT DATA</h3>
+                <p class="card-text">Renew your MNT Data pack</p>
+
+                <form method="POST" action="{% url 'data' %}">
+							<input name="_token" type="hidden" value="qzCoS3lTRM4fk9A4SkCb42o0JA0SPpl4CwleGCkv">
+							<div class="form-group col-lg-12">
+
+                    {% csrf_token %} 
+
+                    <input name="_token" type="hidden" value="2nRiYbb5QGSy1ZiIG9DUc6ASrxWK1kQieMNhbnNZ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Pack</label>
+                            <input class="form-control" placeholder="Enter Phone Number" id="bouquet" name="bouquet" type="text" value="{{options.variation_code}}" style="display: none;">
+                            <h2>{{options.variation_code}}</h2>
+                        </div>
+                    </div>
+            
+                    <div class="row mt-3" id="verify_tab" style="display:none;">
+                        <div class="col-md-12">
+                            <img src="resources/verifying.gif" alt="DSTV Subscription Renewal Payment Online in 3 Easy Steps using VTpass.com" id="verify_loading" style="margin: 0 auto;display: none">
+                            <p id="verify_table" style="margin:5px;display:none;">
+                                <strong id="s_name"></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="phone">Phone Number</label>
+                            <h2>{{options.phone}}</h2>
+                            
+                            <input class="form-control" placeholder="Enter Phone Number" id="phone" name="phone" type="text" value="{{options.phone}}" style="display: none;">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ex_form">Email Address</label>
+                            <h2>{{options.email}}</h2>
+                            
+                            <input class="form-control" type="hidden" placeholder="Enter Phone Number" id="email" name="email" type="text" value="{{options.email}}" style="display: none;">
+                            <input class="form-control" type="hidden" placeholder="" id="active" name="active" type="text" value="1" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <input type="submit" value="Continue" class="btn btn-warning">
+                            <input type="reset" value="Cancel" class="btn btn-danger m-l-10">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}

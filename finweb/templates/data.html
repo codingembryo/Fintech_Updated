@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>MTN Data Subscription</h1>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Data Display</title>
+</head>
+<body>
+<h1>Data Display</h1>
+<table>
+<tr>
+<th>Category</th>
+<th>Subcategory</th>
+<th>Image</th>
+<th>Input</th>
+</tr>
+<!-- loop over the categories -->
+{% for category in categories %}
+<!-- loop over the subcategories that belong to the current category -->
+{% for subcategory in category.subcategory_set.all %}
+<tr>
+<!-- display the category name -->
+<td>{{ category.name }}</td>
+<!-- display the subcategory name -->
+<td>{{ subcategory.name }}</td>
+<!-- display the subcategory image -->
+<td><img src="{{ subcategory.image }}" alt="{{ subcategory.name }}"></td>
+<!-- display an input field for the user -->
+<td><input type="text" name="{{ subcategory.name }}"></td>
+</tr>
+{% endfor %}
+{% endfor %}
+</table>
+
+{% endblock %}

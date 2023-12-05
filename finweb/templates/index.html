@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<body>
+    <h1>MTN Data Subscription</h1>
+
+    <form method="POST" action="{% url 'index' %}">
+
+    {% csrf_token %}
+
+    <label for="phone">Enter your phone number:</label>
+
+    <input type="text" id="phone" name="phone" required>
+
+    <label for="variation_code">Select a data plan:</label>
+
+    <select id="variation_code" name="variation_code" required>
+
+    {% for variation in variations.varations %}
+
+    <option value="{{ variation.variation_code }}">{{ variation.name }}</option>
+
+    {% endfor %}
+
+    </select>
+    <button type="submit">Purchase</button>
+
+    </form>
+
+    {% if purchase_result %}
+    
+    <h2>Purchase Result</h2>
+
+    <p>Transaction ID: {{ purchase_result.transactions.transactionId }}</p>
+
+    <p>Product Name: {{ purchase_result.transactions.product_name }}</p>
+
+    <p>Phone Number: {{ purchase_result.transactions.unique_element }}</p>
+
+    <p>Amount: {{ purchase_result.transactions.amount }}</p>
+
+    {% endif %}
+
+    {% if transaction_status %}
+
+    <h2>Transaction Status</h2>
+
+    <p>Status: {{ transaction_status.transactions.status }}</p>
+
+    <p>Response Description: {{ transaction_status.response_description }}</p>
+
+    {% endif %}
+
+{% endblock %}

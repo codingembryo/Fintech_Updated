@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <title>Purchase Product</title>
+
+    <h2>Purchase Product</h2>
+
+    <form method="post"  action="{% url 'Payments:purchase_product' %}">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="smartcard_number" class="form-label">Smart Card Number</label>
+            <input type="text" class="form-control" id="smartcard_number" name="smartcard_number" required>
+        </div>
+      
+        <div class="mb-3">
+            <label for="variation_code" class="form-label">Variation Code</label>
+            <input type="text" class="form-control" id="variation_code" name="variation_code" required>
+        </div>
+      
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="text" class="form-control" id="amount" name="amount" required>
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Purchase</button>
+    </form>
+
+    {% if api_response %}
+    <div class="api-response">
+        <p>Customer Name: {{ api_response.content.Customer_Name }}</p>
+        <p>Transaction ID: {{ api_response.transactions.transactionId }}</p>
+        <p>Variation Code: {{ api_response.transactions.variation_code }}</p>
+        <p>Amount: {{ api_response.transactions.amount }}</p>
+        <p>Service ID: {{ api_response.transactions.serviceID }}</p>
+        <p>Request ID: {{ api_response.transactions.request_id }}</p>
+        <!-- Display other relevant information here -->
+    </div>
+    {% endif %}
+
+{% endblock %}

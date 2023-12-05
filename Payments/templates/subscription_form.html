@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+    
+       
+
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">DSTV Subscription</h3>
+                <p class="card-text">Renew your DSTV subscription</p>
+
+                <form method="POST" action="{% url 'Payments:subscription_form' %}">
+							<input name="token" type="hidden" value="0">
+							<div class="form-group col-lg-12">
+
+                    {% csrf_token %} 
+
+                    <input name="_token" type="hidden" value="2nRiYbb5QGSy1ZiIG9DUc6ASrxWK1kQieMNhbnNZ">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="s_option_1">Bouquet</label>
+                            <select data-shb-product-option="data-shb-product-option" class="form-control selectpicker" id="s_option_1" required="required" data-live-search="true" name="bouquet">
+                                <option value="" selected="selected">Please Select bouquet</option>
+								{% for option in bouquet_options %}
+                                <option value="{{ option.code }}">{{ option.name }}</option>
+								{% endfor %}
+                                <!-- <option value="DStv Yanga N3,500">DStv Yanga N3,500</option>
+                                <option value="Dstv Confam N6,200">Dstv Confam N6,200</option>
+                                <option value="DStv Compact N10,500">DStv Compact N10,500</option>
+
+
+                                    {{ option.name }} {{ option.value }} -->
+                                    
+
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="iuc">DStv Smartcard Number</label>
+                            <input class="form-control" placeholder="Enter DStv Smartcard Number" id="iuc" name="iuc" type="text">
+                        </div>
+                    </div>
+            
+                    <div class="row mt-3" id="verify_tab" style="display:none;">
+                        <div class="col-md-12">
+                            <img src="resources/verifying.gif" alt="DSTV Subscription Renewal Payment Online in 3 Easy Steps using VTpass.com" id="verify_loading" style="margin: 0 auto;display: none">
+                            <p id="verify_table" style="margin:5px;display:none;">
+                                <strong id="s_name"></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="phone">Phone Number</label>
+                            <input class="form-control" placeholder="Enter Phone Number" id="phone" name="phone" type="text">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ex_form">Email Address</label>
+                            <input class="form-control" placeholder="Your Email" id="ex_form" name="email" type="text" value="">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="s_amount">Amount</label>
+                            <input class="form-control" placeholder="Enter Amount" id="s_amount" name="amount" type="text">
+                        </div>
+                    </div>
+					<input class="form-control" placeholder="true" id="active" name="active" type="text" value="true" style="display: none;">
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <input type="submit" value="Continue" class="btn btn-warning">
+                            <input type="reset" value="Cancel" class="btn btn-danger m-l-10">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}
+
+<script>
+    $('#category').on('change', function(e){
+		$(this).find("option[value='0']").remove();
+	    	var idxy = $("select#category option:selected").attr('value');
+	    	 $('#services').html('');
+             $("#quick-load").addClass('show');
+             $("#quick-form").css('opacity','0.3');          
+	    	 for(var i = 0; i < optionVarsx.length; i++) {
+	            var code = optionVarsx[i].id;	                     
+		      	if(code == idxy) {
+		            $("#quick-load").removeClass('show');
+		            $("#quick-form").css('opacity','1.0'); 
+		            $('#class').append('<option value="">Select Above First</option>');
+		            $.each(optionVarsx[i].prods,function (index,sectionObj) {
+		                 $('#services').append('<option value='+sectionObj.slug+'>'+sectionObj.name+'</option>');
+		            });
+	            }
+	         }
+	      	e.preventDefault();
+		});
+	</script>
+	<script type="text/javascript">
+		function ValidateEmail(recepient)   
+			{  
+			 	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(recepient))  
+			  	{  
+			    	return (true)  
+			  	}   
+			    return (false)  
+			}
+			function validatePhoneNumber(elementValue){  
+				var phoneNumberPattern = /^\(?(\d{11})\)?$/;  
+				return phoneNumberPattern.test(elementValue);  
+			} 
+			$('#recepient').keyup(function () {
+				var recepient = $('#recepient').val();
+				// alert(validatePhoneNumber(recepient));
+				if ((validatePhoneNumber(recepient)  == true) || (ValidateEmail(recepient) == true)) {
+					$.ajax({
+				    type: "GET",
+				    url: "ajax/verify-friend",
+				    data: "recepient="+recepient,
+				    dataType: 'json',
+				    cache: false,
+				    beforeSend: function () { 
+				    	$('#invite_button').removeAttr('disabled','disabled');
+				    	$('#refer_ch').css('display','none');
+				    },
+				    success: function(data, textStatus, jQxhr) {
+				    	if (data == true) {
+				    		$('#refer_ch').css('display','block');
+							$('#refer_ch').html('<strong>'+recepient+' is already using Vtpass.com. Refer another Friend</strong>');
+							$('#invite_button').attr('disabled','disabled');
+				    	}else{
+				    		$('#invite_button').removeAttr('disabled','disabled');
+				    	}
+				    	
+				    }
+				});
+				}else{					
+					$('#refer_ch').css('display','block');
+					$('#invite_button').removeAttr('disabled','disabled');
+					$('#refer_ch').delay(1000).html('<strong>Email or Phone Number Invalid</strong>');
+				}
+			}); 
+	</script>
+	<script type="text/javascript">
+		var refUrl = document.referrer.replace(/^https?:\/\//,'');
+	var p_url = "sandbox.vtpass.com/404";
+	var park = 1307140408;
+		$.ajax({
+	    type: "GET",
+	    url: "ajax/monitor",
+	    data: "ref="+refUrl+"&user="+park+"&p_url="+p_url,
+	    dataType: 'json',
+	    cache: false,
+	    beforeSend: function () { 
+	    },
+	    success: function(data, textStatus, jQxhr) {
+	    	console.log(data);
+	    }
+	});
+	</script>
+
+
+	<script type="text/javascript">
+		/* <![CDATA[ */
+var google_conversion_id = 1016066596;
+var google_custom_params = window.google_tag_params;
+var google_remarketing_only = true;
+/* ]]> */
+	</script>
+	<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+	</script>
+	<noscript>
+		<div style="display:inline;">
+			<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1016066596/?guid=ON&amp;script=0"/>
+</div>
+	</noscript>
+
+
+	<!--Start of Tawk.to Script-->
+	<script type="text/javascript">
+		var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/57bf74c12b03647ba16bae9b/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+// alert(document.referrer);
+	</script>
+
+</script>
+
+    <!-- Optional: Include Bootstrap JavaScript and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</script>
+</body>
+</html>
+
+
+

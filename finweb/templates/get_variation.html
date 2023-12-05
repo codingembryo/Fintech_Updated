@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <img src="{% static 'finweb/images/dstvlogo.jpg' %}" alt="DSTV Logo" class="img-fluid" width="100px" height="80px">
+            <h2 class="text-center">DSTV Subscription</h2>
+            <p class="text-center">Renew your DSTV subscription</p>
+
+            <form action="" method="post">
+
+                {% csrf_token %}
+
+                <!-- Select Bouquet -->
+                <div class="form-group">
+                    <label for="variation">Select Bouquet:</label>
+                    <select id="variation" name="variation" class="form-control" required>
+                        <option value="" disabled selected>Select A Bouquet Plan</option>
+                        {% for variation in variations %}
+                            <option value="{{ variation.variation_amount }}">{{ variation.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Smart Card Number -->
+                <div class="form-group">
+                    <label for="smart_card">Smart Card Number</label>
+                    <input type="text" class="form-control" id="smart_card" name="smart_card" required>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+
+                <!-- Email Address -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <!-- Amount Input -->
+                <div class="form-group">
+                    <label for="s_amount">Amount</label>
+                    <input class="form-control" placeholder="Enter Amount" id="s_amount" name="amount" type="text" readonly>
+                </div>
+
+                <!-- Cancel and Continue buttons -->
+                    <br><br>
+                <a href="{% url 'confirm_transaction' %}">
+                    <button type="submit" class="btn btn-primary btn-block">Continue</button></a>
+
+                        <button type="button" class="btn btn-danger btn-block">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // JavaScript to update the "Amount" input field when the user selects a variation
+        var selectElement = document.getElementById("variation");
+        var amountInput = document.getElementById("s_amount");
+
+        selectElement.addEventListener("change", function() {
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            if (selectedOption.value !== "") {
+                // Set the value of the "Amount" input to the selected option's value
+                amountInput.value = selectedOption.value;
+            } else {
+                // If no option is selected or the placeholder is selected, clear the input
+                amountInput.value = "";
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+    
+{% endblock %}
+

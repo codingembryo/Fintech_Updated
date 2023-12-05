@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <img src="{% static 'finweb/images/dstvlogo.jpg' %}" alt="DSTV Logo" class="img-fluid" width="100px" height="80px">
+            <h2 class="text-center">DSTV Subscription</h2>
+            <p class="text-center">Renew your DSTV subscription</p>
+
+            <div class="confirmation-details">
+                <h3>Please Confirm your Transaction Details are as Follows:</h3>
+                <ul>
+                    <li><strong>Product:</strong> DSTV Subscription ({{ transaction_details.variation }})</li>
+                    <hr>
+                    <li><strong>DStv Smartcard Number:</strong> {{ transaction_details.smart_card }}</li>
+                    <hr>
+                    <li><strong>Amount:</strong> ₦ {{ transaction_details.amount }}</li>
+                    <hr>
+                    <li><strong>Total Payable Amount:</strong> ₦ {{ transaction_details.amount }}</li>
+                    <hr>
+                    <li><strong>Transaction ID:</strong> {{ transaction_details.transaction_id }}</li>
+                    <hr>
+                    <li><strong>Status:</strong> initiated</li>
+                    <hr>
+                    <button type="submit" class="btn btn-primary btn-block">Continue</button></a>
+
+                        <button type="button" class="btn btn-danger btn-block">Cancel</button>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

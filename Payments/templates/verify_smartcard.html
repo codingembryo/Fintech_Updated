@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<h2>Verify Smartcard</h2>
+
+<form method="post" action="{% url 'Payments:verify_smartcard' %}">
+    {% csrf_token %}
+    <label for="smartcard">Smartcard Number:</label>
+    <input type="text" name="smartcard_number" id="smartcard" required>
+    <button type="submit">Verify</button>
+</form>
+
+
+{% if verified %}
+<h3>Customer Information</h3>
+<p>Name: {{ customer_name }}</p>
+<p>Current Bouquet: {{ current_bouquet }}</p>
+<p>Renewal Amount: {{ renewal_amount }}</p>
+{% endif %}
+
+{% if api_response %}
+
+<div class="api-response">
+    <h3>API Response Information</h3>
+    <p>Customer Name: {{ api_response.content.Customer_Name }}</p>
+    <p>Transaction ID: {{ api_response.transactions.transactionId }}</p>
+    <p>Variation Code: {{ api_response.transactions.variation_code }}</p>
+    <p>Amount: {{ api_response.transactions.amount }}</p>
+    <p>Service ID: {{ api_response.transactions.serviceID }}</p>
+    <p>Request ID: {{ api_response.transactions.request_id }}</p>
+    <!-- Display other relevant information here -->
+</div>
+{% endif %}
+
+{% endblock %}
+
+
